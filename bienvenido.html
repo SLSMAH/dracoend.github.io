@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Bienvenido Señor END ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .welcome-container {
+            text-align: center;
+            position: relative;
+            z-index: 20;
+            animation: fadeInScale 1.2s ease-out;
+        }
+
+        .welcome-text {
+            font-size: 5rem;
+            color: #00ff00;
+            text-shadow: 
+                0 0 10px #00ff00,
+                0 0 20px #00ff00,
+                0 0 40px #00ff00,
+                0 0 80px #00ff00,
+                0 0 120px #00ff00;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite ease-in-out;
+            position: relative;
+            display: inline-block;
+            padding: 30px 60px;
+            border: 4px solid #00ff00;
+            border-radius: 30px;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 0, 0.7),
+                inset 0 0 30px rgba(0, 255, 0, 0.3);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .flame-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .flame-particle {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #00ffff, #0066ff, #0000aa, transparent 80%);
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.8;
+            animation: flameFloat 4s infinite ease-in-out;
+            box-shadow: 0 0 40px #00ffff;
+        }
+
+        .flame-particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; width: 40px; height: 40px; }
+        .flame-particle:nth-child(2) { top: 70%; left: 15%; animation-delay: 0.5s; width: 25px; height: 25px; }
+        .flame-particle:nth-child(3) { top: 30%; left: 85%; animation-delay: 1s; width: 50px; height: 50px; }
+        .flame-particle:nth-child(4) { top: 80%; left: 80%; animation-delay: 1.5s; width: 35px; height: 35px; }
+        .flame-particle:nth-child(5) { top: 15%; left: 50%; animation-delay: 2s; width: 45px; height: 45px; }
+        .flame-particle:nth-child(6) { top: 60%; left: 40%; animation-delay: 2.5s; width: 30px; height: 30px; }
+        .flame-particle:nth-child(7) { top: 45%; left: 20%; animation-delay: 3s; width: 55px; height: 55px; }
+        .flame-particle:nth-child(8) { top: 25%; left: 70%; animation-delay: 3.5s; width: 28px; height: 28px; }
+        .flame-particle:nth-child(9) { top: 85%; left: 30%; animation-delay: 0.2s; width: 38px; height: 38px; }
+        .flame-particle:nth-child(10) { top: 10%; left: 90%; animation-delay: 0.7s; width: 42px; height: 42px; }
+        .flame-particle:nth-child(11) { top: 50%; left: 95%; animation-delay: 1.2s; width: 33px; height: 33px; }
+        .flame-particle:nth-child(12) { top: 95%; left: 60%; animation-delay: 1.7s; width: 48px; height: 48px; }
+        .flame-particle:nth-child(13) { top: 40%; left: 5%; animation-delay: 2.2s; width: 36px; height: 36px; }
+        .flame-particle:nth-child(14) { top: 75%; left: 75%; animation-delay: 2.7s; width: 52px; height: 52px; }
+        .flame-particle:nth-child(15) { top: 5%; left: 30%; animation-delay: 3.2s; width: 29px; height: 29px; }
+
+        @keyframes flameFloat {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+            25% { transform: translateY(-30px) translateX(15px) scale(1.2); opacity: 1; }
+            50% { transform: translateY(20px) translateX(-20px) scale(0.9); opacity: 0.9; }
+            75% { transform: translateY(-15px) translateX(25px) scale(1.1); opacity: 1; }
+            100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,255,255,0.2) 0%, transparent 70%);
+            top: 0;
+            left: 0;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.5rem;
+                padding: 20px 30px;
+                letter-spacing: 4px;
+                white-space: normal;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flame-container">
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+    </div>
+
+    <div class="glow-effect"></div>
+
+    <div class="welcome-container">
+        <div class="welcome-text">BIENVENIDO SEÑOR END</div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = 'END.html';
+        }, 3500);
+    </script>
+</body>
+</html>
