@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angel_end • Activación holográfica</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            font-family: 'Arial Black', 'Impact', sans-serif;
+        }
+
+        #project-activated {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00aaff;
+            font-size: 4.5rem;
+            text-align: center;
+            text-shadow: 0 0 20px #00aaff, 0 0 40px #0088ff, 0 0 80px #0066ff, 0 0 160px #0044aa;
+            opacity: 0;
+            transition: opacity 2s ease;
+            z-index: 100;
+            pointer-events: none;
+            letter-spacing: 0.3em;
+            white-space: nowrap;
+            animation: subtleGlow 3s infinite alternate;
+        }
+
+        @keyframes subtleGlow {
+            from { text-shadow: 0 0 20px #00aaff, 0 0 40px #0088ff, 0 0 80px #0066ff; }
+            to   { text-shadow: 0 0 30px #44ccff, 0 0 60px #00aaff, 0 0 120px #0088ff; }
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: rgba(100, 180, 255, 0.3);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        .status {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: #0af;
+            font-family: monospace;
+            font-size: 12px;
+            background: rgba(0,20,40,0.7);
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid #0af;
+            box-shadow: 0 0 15px #0af;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div id="project-activated">PROJECT ACTIVATED</div>
+    <div class="instruction">⚡ SIETE MANOS · ACTIVACIÓN HOLOGRÁFICA ⚡</div>
+    <div class="status" id="status">ESPERANDO MANOS...</div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // --- CONFIGURACIÓN INICIAL ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050510);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 1, 18);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.body.appendChild(renderer.domElement);
+
+        // --- LUCES ---
+        const ambientLight = new THREE.AmbientLight(0x404080);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(2, 3, 5);
+        scene.add(dirLight);
+
+        const centerLight = new THREE.PointLight(0x0088ff, 1, 30);
+        centerLight.position.set(0, 0, 0);
+        scene.add(centerLight);
+
+        const fillLight = new THREE.PointLight(0x4466aa, 0.5, 20);
+        fillLight.position.set(-3, 2, 4);
+        scene.add(fillLight);
+
+        // --- FONDO DE ESTRELLAS ---
+        const starsGeometry = new THREE.BufferGeometry();
+        const starsCount = 3000;
+        const starsPositions = new Float32Array(starsCount * 3);
+        for (let i = 0; i < starsCount * 3; i += 3) {
+            const r = 60 + Math.random() * 80;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            starsPositions[i] = Math.sin(phi) * Math.cos(theta) * r;
+            starsPositions[i+1] = Math.sin(phi) * Math.sin(theta) * r * 0.6;
+            starsPositions[i+2] = Math.cos(phi) * r;
+        }
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
+        const starsMaterial = new THREE.PointsMaterial({ color: 0xaaccff, size: 0.15, transparent: true, opacity: 0.8 });
+        const stars = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(stars);
+
+        // --- NÚCLEO CENTRAL ---
+        const coreGeo = new THREE.SphereGeometry(1.2, 64, 64);
+        const coreMat = new THREE.MeshStandardMaterial({
+            color: 0x2266aa,
+            emissive: 0x113366,
+            roughness: 0.2,
+            metalness: 0.8,
+            transparent: true,
+            opacity: 0.95
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(core);
+
+        // Anillos estáticos
+        const ringMat = new THREE.MeshStandardMaterial({ color: 0x44aaff, emissive: 0x224466 });
+        const ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.8, 0.06, 32, 100), ringMat);
+        ring1.rotation.x = Math.PI / 2;
+        ring1.rotation.z = 0.3;
+        scene.add(ring1);
+
+        const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.1, 0.04, 24, 100), ringMat);
+        ring2.rotation.y = 0.8;
+        ring2.rotation.x = 0.5;
+        scene.add(ring2);
+
+        const ring3 = new THREE.Mesh(new THREE.TorusGeometry(1.4, 0.03, 16, 80), 
+            new THREE.MeshStandardMaterial({ color: 0x88ccff, emissive: 0x224466 }));
+        ring3.rotation.z = 1.2;
+        ring3.rotation.y = 0.2;
+        scene.add(ring3);
+
+        // --- MANOS (7 esferas) ---
+        const handCount = 7;
+        const hands = [];
+
+        for (let i = 0; i < handCount; i++) {
+            const angle = (i / handCount) * Math.PI * 2;
+            const radius = 7.5;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius * 0.5;
+            const z = Math.sin(angle * 1.5) * 2.5;
+
+            const sphereGeo = new THREE.SphereGeometry(0.45, 24, 24);
+            const sphereMat = new THREE.MeshStandardMaterial({ color: 0xaaccff, emissive: 0x224488 });
+            const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+            sphere.position.set(x, y, z);
+            scene.add(sphere);
+            hands.push(sphere);
+
+            // Estela de partículas
+            const trailCount = 10;
+            const trailGeo = new THREE.BufferGeometry();
+            const trailPos = new Float32Array(trailCount * 3);
+            for (let j = 0; j < trailCount; j++) {
+                const a = (j / trailCount) * Math.PI * 2;
+                trailPos[j*3] = Math.cos(a) * 0.9;
+                trailPos[j*3+1] = Math.sin(a) * 0.9;
+                trailPos[j*3+2] = 0;
+            }
+            trailGeo.setAttribute('position', new THREE.BufferAttribute(trailPos, 3));
+            const trailMat = new THREE.PointsMaterial({ color: 0x44aaff, size: 0.12, transparent: true, opacity: 0.9 });
+            const trail = new THREE.Points(trailGeo, trailMat);
+            sphere.add(trail);
+        }
+
+        // --- PARTÍCULAS AMBIENTALES ---
+        const particleCount = 1200;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePos = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            const r = 3 + Math.random() * 8;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            particlePos[i*3] = Math.sin(phi) * Math.cos(theta) * r;
+            particlePos[i*3+1] = Math.sin(phi) * Math.sin(theta) * r * 0.7;
+            particlePos[i*3+2] = Math.cos(phi) * r;
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+        const particleMat = new THREE.PointsMaterial({ color: 0x3366aa, size: 0.1, transparent: true, opacity: 0.4 });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        scene.add(particles);
+
+        // --- EFECTOS HOLOGRÁFICOS (anillos que aparecen al activar) ---
+        const holoRings = [];
+        for (let i = 0; i < 6; i++) {
+            const radius = 2.2 + i * 0.9;
+            const ringGeo = new THREE.TorusGeometry(radius, 0.04, 32, 120);
+            const ringMat = new THREE.MeshStandardMaterial({
+                color: 0x00ccff,
+                emissive: 0x0066aa,
+                transparent: true,
+                opacity: 0,
+                side: THREE.DoubleSide
+            });
+            const r = new THREE.Mesh(ringGeo, ringMat);
+            r.rotation.x = Math.PI / 2;
+            r.rotation.z = i * 0.3;
+            scene.add(r);
+            holoRings.push({ mesh: r, baseRadius: radius, speed: 0.3 + i * 0.1 });
+        }
+
+        // Líneas de partículas holográficas
+        const lineParticlesGeo = new THREE.BufferGeometry();
+        const lineCount = 400;
+        const linePositions = new Float32Array(lineCount * 3);
+        for (let i = 0; i < lineCount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 1.8 + Math.random() * 5;
+            linePositions[i*3] = Math.cos(angle) * dist;
+            linePositions[i*3+1] = Math.sin(angle) * dist * 0.6;
+            linePositions[i*3+2] = (Math.random() - 0.5) * 3;
+        }
+        lineParticlesGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+        const lineParticlesMat = new THREE.PointsMaterial({ color: 0x44aaff, size: 0.15, transparent: true, opacity: 0 });
+        const lineParticles = new THREE.Points(lineParticlesGeo, lineParticlesMat);
+        scene.add(lineParticles);
+
+        // --- VARIABLES DE CONTROL ---
+        let activationStarted = false;
+        let activationTime = 0;
+        let textDisplayed = false;
+        const textElement = document.getElementById('project-activated');
+        const statusDiv = document.getElementById('status');
+
+        const speed = 0.04;
+        let allHandsNear = false;
+
+        // --- BUCLE DE ANIMACIÓN ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            const delta = clock.getDelta();
+            const elapsedTime = performance.now() / 1000;
+
+            // Rotaciones de fondo
+            stars.rotation.y += 0.0001;
+            stars.rotation.x += 0.00005;
+            particles.rotation.y += 0.0003;
+
+            ring1.rotation.z += 0.002;
+            ring2.rotation.x += 0.0015;
+            ring2.rotation.y += 0.002;
+            ring3.rotation.y += 0.003;
+            ring3.rotation.x += 0.001;
+
+            // Movimiento de las manos hacia el centro
+            if (!activationStarted) {
+                let anyMoving = false;
+                hands.forEach(hand => {
+                    const dist = hand.position.length();
+                    if (dist > 2.0) {
+                        const dir = new THREE.Vector3(0, 0, 0).sub(hand.position).normalize();
+                        hand.position.addScaledVector(dir, speed * 1.2);
+                        anyMoving = true;
+                    }
+                });
+
+                if (!anyMoving && !allHandsNear) {
+                    allHandsNear = true;
+                    activationStarted = true;
+                    activationTime = elapsedTime;
+                    statusDiv.innerHTML = '⚡ ACTIVACIÓN HOLOGRÁFICA ⚡';
+                    statusDiv.style.color = '#0ff';
+                    statusDiv.style.boxShadow = '0 0 25px #0ff';
+
+                    core.material.emissive.setHex(0x2288ff);
+                    centerLight.intensity = 4;
+                    holoRings.forEach(item => item.mesh.material.opacity = 0.9);
+                    lineParticles.material.opacity = 0.8;
+                }
+            } else {
+                // Efectos posteriores
+                holoRings.forEach((item, idx) => {
+                    item.mesh.rotation.y += 0.015 * item.speed;
+                    item.mesh.rotation.x += 0.008;
+                    const scale = 1 + (elapsedTime - activationTime) * 0.4;
+                    if (scale < 3.5) {
+                        item.mesh.scale.setScalar(scale);
+                    }
+                });
+
+                lineParticles.material.opacity *= 0.99;
+
+                // Mostrar texto y redirigir
+                if (!textDisplayed && elapsedTime - activationTime > 2.5) {
+                    textDisplayed = true;
+                    textElement.classList.add('show');
+                    textElement.style.opacity = 1;
+
+                    // Redirigir al login después de 3 segundos de mostrar el texto
+                    setTimeout(() => {
+                        window.location.href = '../login.html';
+                    }, 3000);
+                }
+            }
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // --- AJUSTE DE VENTANA ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
